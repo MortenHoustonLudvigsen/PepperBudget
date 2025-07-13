@@ -1,0 +1,17 @@
+﻿<RadzenPanelMenu>
+    <RadzenPanelMenuItem Text="Home" Icon="savings" Path="/" />
+</RadzenPanelMenu>
+
+@code {
+    private async Task Load()
+    {
+        await Task.WhenAll(
+        );
+    }
+
+    protected override async Task OnInitializedAsync()
+    {
+        await Load();
+        await base.OnInitializedAsync();
+    }
+}

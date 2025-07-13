@@ -16,16 +16,8 @@ public class TransactionsController(PepperBudgetDbContext context) : ControllerB
             .ToListAsync();
 
     [HttpPost]
-    public async Task<IActionResult> Post(List<Transaction> transactions)
+    public async Task<IActionResult> Post(string csv)
     {
-        // Validate: AccountId must be internal
-        foreach (var t in transactions)
-        {
-            var account = await context.Accounts.FindAsync(t.AccountId);
-            if (account == null || !account.IsInternal) return BadRequest("Invalid account.");
-        }
-        context.Transactions.AddRange(transactions);
-        await context.SaveChangesAsync();
-        return Ok();
+        throw new NotImplementedException();
     }
 }

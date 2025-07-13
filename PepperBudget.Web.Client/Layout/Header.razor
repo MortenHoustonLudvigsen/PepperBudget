@@ -1,0 +1,43 @@
+﻿@implements IDisposable
+@inject PageInfoService PageInfo
+
+<RadzenHeader>
+    <RadzenStack Orientation="Orientation.Horizontal" AlignItems="AlignItems.Center" JustifyContent="JustifyContent.SpaceBetween" Gap="0">
+        <!-- Left-aligned items -->
+        <RadzenStack Orientation="Orientation.Horizontal" AlignItems="AlignItems.Center" Gap="0">
+            <RadzenSidebarToggle Click="ToggleMenu" />
+            <RadzenLabel Text="@PageInfo.PageTitle" />
+        </RadzenStack>
+
+        <!-- Right-aligned icons -->
+        <RadzenStack Orientation="Orientation.Horizontal" Gap="1rem">
+            <RadzenAppearanceToggle class="rz-mx-2" />
+        </RadzenStack>
+    </RadzenStack>
+</RadzenHeader>
+
+@code {
+    [Parameter]
+    public EventCallback MenuToggled { get; set; }
+
+    private async Task ToggleMenu()
+    {
+        await MenuToggled.InvokeAsync();
+    }
+
+    protected override void OnInitialized()
+    {
+        base.OnInitialized();
+        PageInfo.OnChanged += StateChanged;
+    }
+
+    private void StateChanged()
+    {
+        InvokeAsync(StateHasChanged);
+    }
+
+    public void Dispose()
+    {
+        PageInfo.OnChanged -= StateChanged;
+    }
+}

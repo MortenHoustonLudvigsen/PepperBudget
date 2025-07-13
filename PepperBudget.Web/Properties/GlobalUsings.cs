@@ -1,10 +1,9 @@
-﻿global using Microsoft.AspNetCore.Components.Web;
-global using Microsoft.AspNetCore.Components.WebAssembly.Hosting;
+﻿global using Microsoft.AspNetCore.Builder;
+global using Microsoft.Extensions.Configuration;
+global using Microsoft.Extensions.DependencyInjection;
+global using Microsoft.Extensions.Hosting;
 
-global using PepperBudget.Data;
-global using PepperBudget.Web;
-global using PepperBudget.Web.Services;
+global using PepperBudget.Api;
+global using PepperBudget.Web.Components;
 
 global using Radzen;
-
-global using System.Net.Http.Json;

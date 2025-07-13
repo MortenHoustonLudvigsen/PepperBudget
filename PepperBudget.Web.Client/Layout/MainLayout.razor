@@ -1,0 +1,28 @@
+﻿@inherits LayoutComponentBase
+
+<RadzenComponents @rendermode="InteractiveWebAssembly" />
+
+<RadzenLayout>
+    <Header MenuToggled="ToggleMenuExpanded" />
+    <RadzenSidebar @bind-Expanded="@MenuExpanded">
+        <Menu />
+    </RadzenSidebar>
+    <RadzenBody>
+        @Body
+    </RadzenBody>
+</RadzenLayout>
+
+<div id="blazor-error-ui" data-nosnippet>
+    An unhandled error has occurred.
+    <a href="." class="reload">Reload</a>
+    <span class="dismiss">🗙</span>
+</div>
+
+@code {
+    public bool MenuExpanded { get; set; } = true;
+
+    public void ToggleMenuExpanded()
+    {
+        MenuExpanded = !MenuExpanded;
+    }
+}

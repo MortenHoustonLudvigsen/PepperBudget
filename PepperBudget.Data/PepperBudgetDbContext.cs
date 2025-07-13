@@ -22,4 +22,10 @@ public class PepperBudgetDbContext(DbContextOptions<PepperBudgetDbContext> optio
             .HasForeignKey(t => t.CounterAccountId)
             .OnDelete(DeleteBehavior.Restrict);
     }
+
+    protected override void ConfigureConventions(ModelConfigurationBuilder configurationBuilder)
+    {
+        configurationBuilder.Conventions.Remove<TableNameFromDbSetConvention>();
+        configurationBuilder.Conventions.Add(_ => new SnakeCaseConvention());
+    }
 }

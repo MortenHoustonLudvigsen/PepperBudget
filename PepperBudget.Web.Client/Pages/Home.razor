@@ -1,0 +1,78 @@
+﻿@page "/"
+@inject BudgetService BudgetService
+
+<h1>Pepper Budget</h1>
+
+<!-- Add Account Form -->
+<RadzenCard>
+    <h3>Add Account</h3>
+    <RadzenTextBox @bind-Value="newAccount.Name" Placeholder="Name" />
+    <RadzenCheckBox @bind-Value="newAccount.IsInternal" /> Internal (Your Account)
+    <RadzenButton Click="AddAccount" Text="Save" />
+</RadzenCard>
+
+<!-- Select Account for Import/View -->
+<RadzenDropDown @bind-Value="selectedAccountId" Data="@internalAccounts" TextProperty="Name" ValueProperty="Id" Placeholder="Select Account" />
+
+<RadzenUpload ChooseText="Import CSV for Selected Account" Multiple="false" Auto="false" Change="@ImportFile" Disabled="!selectedAccountId.HasValue" />
+
+<RadzenDataGrid @ref="grid" Data="@transactions" TItem="Transaction">
+    <Columns>
+        <RadzenDataGridColumn Property="Date" Title="Date" />
+        <RadzenDataGridColumn Property="Description" Title="Description" />
+        <RadzenDataGridColumn Property="Amount" Title="Amount" />
+        <RadzenDataGridColumn Property="Account.Name" Title="Account" />
+        <RadzenDataGridColumn Property="CounterAccount.Name" Title="Counter Account" />
+    </Columns>
+</RadzenDataGrid>
+
+<h2>Projection (Next 3 Months Expenses)</h2>
+<RadzenDataGrid Data="@projection" TItem="KeyValuePair<string, decimal>">
+    <Columns>
+        <RadzenDataGridColumn Property="Key" Title="Category (External)" />
+        <RadzenDataGridColumn Property="Value" Title="Projected Spend" />
+    </Columns>
+</RadzenDataGrid>
+
+@code {
+    private Account[] internalAccounts = [];
+    private int? selectedAccountId;
+    private Account newAccount = new();
+    private Transaction[] transactions = [];
+    private Dictionary<string, decimal> projection = [];
+    private RadzenDataGrid<Transaction>? grid;
+
+    protected override async Task OnInitializedAsync()
+    {
+        internalAccounts = await BudgetService.GetAccountsAsync(true);
+        await LoadData();
+    }
+
+    private async Task LoadData()
+    {
+        transactions = await BudgetService.GetTransactionsAsync(selectedAccountId);
+        projection = BudgetService.ProjectBudget(transactions, 3);
+        if (grid != null) await grid.Reload();
+    }
+
+    private async Task AddAccount()
+    {
+        await BudgetService.AddAccountAsync(newAccount);
+        internalAccounts = await BudgetService.GetAccountsAsync(true);
+        newAccount = new();
+        StateHasChanged();
+    }
+
+    private async Task ImportFile(UploadChangeEventArgs args)
+    {
+        if (args.Files.Any() && selectedAccountId.HasValue)
+        {
+            var file = args.Files.First();
+            using var stream = file.OpenReadStream();
+            using var reader = new StreamReader(stream);
+            var csv = reader.ReadToEnd();
+            await BudgetService.ImportTransactionsAsync(csv);
+            await LoadData();
+        }
+    }
+}
