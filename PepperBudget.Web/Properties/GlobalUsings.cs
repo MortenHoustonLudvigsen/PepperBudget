@@ -5,4 +5,6 @@ global using PepperBudget.Data;
 global using PepperBudget.Web;
 global using PepperBudget.Web.Services;
 
+global using Radzen;
+
 global using System.Net.Http.Json;

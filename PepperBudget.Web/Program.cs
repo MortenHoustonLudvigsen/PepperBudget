@@ -1,5 +1,6 @@
 var builder = WebAssemblyHostBuilder.CreateDefault(args);
 
+builder.Services.AddRadzenComponents();
 builder.RootComponents.Add<App>("#app");
 builder.RootComponents.Add<HeadOutlet>("head::after");
 
