@@ -1,0 +1,15 @@
+{
+  "RootDirectory": "D:/Projects/PepperBudget",
+  "IncludeAll": false,
+  "ChangedFiles": true,
+  "IncludedFiles": [
+	{
+		"Files": [
+		    "*.sln",
+		    "**/*",
+		],
+		"OutputFile": "GrokExport/GrokExport.md",
+		"Include": true
+	},
+  ]
+}
