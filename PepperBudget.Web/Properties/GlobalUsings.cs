@@ -4,6 +4,5 @@ global using Microsoft.Extensions.DependencyInjection;
 global using Microsoft.Extensions.Hosting;
 
 global using PepperBudget.Api;
-global using PepperBudget.Web.Components;
 
 global using Radzen;

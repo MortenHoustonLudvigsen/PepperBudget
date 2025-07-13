@@ -1,5 +1,5 @@
 ﻿@page "/"
-@inject PepperBudget.Web.Client.Services.BudgetService BudgetService
+@inject BudgetService BudgetService
 
 <h1>Pepper Budget</h1>
 
@@ -51,7 +51,7 @@
     private async Task LoadData()
     {
         transactions = await BudgetService.GetTransactionsAsync(selectedAccountId);
-        projection = PepperBudget.Web.Client.Services.BudgetService.ProjectBudget(transactions, 3);
+        projection = BudgetService.ProjectBudget(transactions, 3);
         if (grid != null) await grid.Reload();
     }
 

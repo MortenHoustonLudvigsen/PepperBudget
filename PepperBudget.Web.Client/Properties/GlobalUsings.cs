@@ -2,7 +2,7 @@
 global using Microsoft.Extensions.DependencyInjection;
 
 global using PepperBudget.Data.Models;
-//global using PepperBudget.Web.Client.Services;
+global using PepperBudget.Web.Client.Services;
 
 global using Radzen;
 
