@@ -10,6 +10,7 @@ builder.Services.AddDbContext<PepperBudgetDbContext>(options =>
 
 var app = builder.Build();
 
+app.UseStaticFiles();
 app.UseBlazorFrameworkFiles();
 app.MapControllers();
 
